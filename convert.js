@@ -2,8 +2,6 @@
 
 // D2 Save File Converter
 // by whipowill
-// -------
-// For Node application for moving files from D2R back to D2LOD.
 
 function dump(obj) {
     var out = '';
@@ -263,6 +261,8 @@ function parseCharacter(rawInput) {
   const D2R = (version === 97);
   dst.write32(D2R ? 96 : 97);
 
+  if (!D2R) throw Error('This script only converts save files from Diablo II Resurrected.');
+
   skip(179 - 8);
   const mercId = copy32();
   skip(765 - 183);
@@ -487,7 +487,7 @@ function parseCharacter(rawInput) {
     parseItem();
   }
 
-  if (!src.eof()) throw Error('file too long');
+  if (!src.eof()) throw Error('File too long!');
 
   const length = dst.bitpos >> 3;
   dst.seek(8);
