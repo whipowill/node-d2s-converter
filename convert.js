@@ -257,9 +257,9 @@ function parseCharacter(rawInput) {
     dst.align();
   }
 
-  if (copy32() !== 0xaa55aa55) throw Error('invalid header');
+  if (copy32() !== 0xaa55aa55) throw Error('Invalid header!');
   const version = src.read32();
-  if (version !== 96 && version !== 97) throw Error('unsupported version');
+  if (version !== 96 && version !== 97) throw Error('Unsupported version!');
   const D2R = (version === 97);
   dst.write32(D2R ? 96 : 97);
 
@@ -267,22 +267,22 @@ function parseCharacter(rawInput) {
   const mercId = copy32();
   skip(765 - 183);
 
-  if (copy16() !== 0x6667) throw Error('invalid stats header');
+  if (copy16() !== 0x6667) throw Error('Invalid stats header!');
 
   while (true) {
     const id = copybits(9);
     if (id === 511) break;
-    if (!csvbits[id]) throw Error('unknown stat code ${id}');
+    if (!csvbits[id]) throw Error('Unknown stat code ${id}!');
     copybits(csvbits[id]);
   }
 
   align();
 
-  if (copy16() !== 0x6669) throw Error('invalid skills header');
+  if (copy16() !== 0x6669) throw Error('Invalid skills header!');
   skip(30);
 
   function parseItem() {
-    if (!D2R && src.read16() !== 0x4d4a) throw Error('invalid item header'); // D2R
+    if (!D2R && src.read16() !== 0x4d4a) throw Error('Invalid item header!'); // D2R
     if (D2R) dst.write16(0x4d4a);
 
     skipbits(4);
@@ -317,14 +317,14 @@ function parseCharacter(rawInput) {
       const baseb = src.char();
       const basec = src.char();
       const based = src.char();
-      if (based !== ' ') throw Error('invalid item code');
+      if (based !== ' ') throw Error('Invalid item code!');
       baseId = basea + baseb + basec;
     } else {
       const basea = src.bits(8);
       const baseb = src.bits(8);
       const basec = src.bits(8);
       const based = src.bits(8);
-      if (based !== 32) throw Error('invalid item code ${src.bitpos / 8}');
+      if (based !== 32) throw Error('Invalid item code ${src.bitpos / 8}!');
       baseId = String.fromCharCode(basea, baseb, basec);
     }
     for (let i = 0; i < 4; ++i) {
@@ -337,7 +337,7 @@ function parseCharacter(rawInput) {
 
     const base = itemBases[baseId];
 
-    if (base == null) throw Error('invalid item code ${baseId}');
+    if (base == null) throw Error('Invalid item code ${baseId}!');
 
     if (ear) {
       skipbits(10);
@@ -431,7 +431,7 @@ function parseCharacter(rawInput) {
         while (true) {
           let id = copybits(9);
           if (id === 511) break;
-          if (!savebits[id]) throw Error('unknown stat code ${id}');
+          if (!savebits[id]) throw Error('Unknown stat code ${id}!');
           skipbits(saveparambits[id]);
           skipbits(savebits[id]);
 
@@ -460,7 +460,7 @@ function parseCharacter(rawInput) {
   }
 
   function parseItemList() {
-    if (copy16() !== 0x4d4a) throw Error('invalid item table header');
+    if (copy16() !== 0x4d4a) throw Error('Invalid item table header!');
     const count = copy16();
     for (let i = 0; i < count; ++i) {
       parseItem();
@@ -470,19 +470,19 @@ function parseCharacter(rawInput) {
   parseItemList(); // character items
 
   //console.log('corpses', (src.bitpos / 8).toString(16), (dst.bitpos / 8).toString(16));
-  if (copy16() !== 0x4d4a) throw Error('invalid item table header');
+  if (copy16() !== 0x4d4a) throw Error('Invalid item table header!');
   const corpses = copy16();
   skip(corpses * 12);
   for (let i = 0; i < corpses; ++i) {
     parseItemList(); // corpses
   }
 
-  if (copy16() !== 0x666a) throw Error('invalid hireling header');
+  if (copy16() !== 0x666a) throw Error('Invalid hireling header!');
   if (mercId) {
     parseItemList();
   }
 
-  if (copy16() !== 0x666b) throw Error('invalid iron golem header');
+  if (copy16() !== 0x666b) throw Error('Invalid iron golem header!');
   if (copy8()) {
     parseItem();
   }
@@ -520,11 +520,11 @@ if (!(args[1])) {
 
 // process the file
 var fs = require('fs')
-fs.readFile(args[0], 'utf8', function(error, data) {
-  try {
-    const converted = parseCharacter(data);
-    fs.writeFile(args[1], converted.result);
-  } catch (e) {
-    throw new Error(e.message);
-  }
+
+const dataIn = fs.readFileSync(args[0]);
+var converted = parseCharacter(dataIn);
+
+fs.writeFile(args[1], converted.result, (err) => {
+  if (err) throw err;
+  console.log('The file has been saved!');
 });
