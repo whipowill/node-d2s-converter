@@ -6,8 +6,6 @@ I wanted to be able to convert save files from D2R back to D2LOD for when I can'
 
 ## Usage
 
-You only need to convert files from D2R, not to D2R.  This is because D2R already knows how to convert and read legacy save files.
-
 ```bash
 // pass input and output as arguments
 $ node convert.js ~/path/to/d2r/save/Sven.d2s ~/path/to/d2lod/save/Sven.d2s
