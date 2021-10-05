@@ -11,7 +11,7 @@ I wanted to be able to convert save files from D2R back to D2LOD for when I can'
 $ node convert.js ~/path/to/d2r/save/Sven.d2s ~/path/to/d2lod/save/Sven.d2s
 ```
 
-You can use the example Shell [script](https://github.com/whipowill/node-d2s-converter/blob/master/examples/convert.sh) to migrate files en masse:
+You can use the example Shell [script](https://github.com/whipowill/node-d2s-converter/blob/master/examples/all.sh) to migrate files en masse:
 
 ```bash
 // send all save files to D2LOD
