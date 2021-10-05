@@ -15,10 +15,10 @@ You can use the example Shell [script](https://github.com/whipowill/node-d2s-con
 
 ```bash
 // send all save files to D2LOD
-$ sh convert.sh lod
+$ sh all.sh lod
 
 // send all save files back to D2R
-$ sh convert.sh res
+$ sh all.sh res
 ```
 
 The script requires that you fill out the correct directory paths.
