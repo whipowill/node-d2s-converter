@@ -11,11 +11,13 @@ I wanted to be able to convert save files from D2R back to D2LOD for when I can'
 $ node convert.js ~/path/to/d2r/save/Sven.d2s ~/path/to/d2lod/save/Sven.d2s
 ```
 
-## Problems
+See the example Shell [script](https://github.com/whipowill/node-d2s-converter/blob/master/examples/convert.sh) for how to migrate files en masse.
 
-Currently this conversion fails if the character is holding certain quest items (Mephisto's Soulstone, Inifus Scroll).
+## Issues
+
+Currently this conversion fails if the character is holding certain quest items (Mephisto's Soulstone, Inifus Scroll).  When converting from D2LOD back to D2R, be sure your character is looking at the personal stash.
 
 ## Credits
 
 - [pairofdocs](https://github.com/pairofdocs) for helping me out.
-- [d07RiV](https://github.com/d07RiV/d07riv.github.io) for writing the original Javascript code.
+- [d07RiV](https://github.com/d07RiV/d07riv.github.io) for writing the original code.
